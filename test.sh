@@ -2,7 +2,7 @@
 
 if [ ! -e /dev/pattern ] ; then
 	echo "/dev/pattern not found, please start it first"
-	echo "Use ./patterndef -n pattern"
+	echo "Use ./patterndev -n pattern"
 	echo "And make sure we have read/write access."
 	exit 1
 fi
