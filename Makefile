@@ -58,7 +58,7 @@ ifeq ($(ERRORS), )
   M_TARGETS=$(TARGETS)
 endif
 
-.PHONY: header
+.PHONY: header check test install
 
 all: $(ERRORS) $(M_TARGETS)
 
@@ -94,5 +94,6 @@ clean:
 
 check:
 	-sh test-binyes.sh
+test: check
 
 -include src/*.d
