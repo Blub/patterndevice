@@ -23,7 +23,11 @@ PATTERNDEV := patterndev
 PATTERNDEV_SRC = src/pattern-device.c
 PATTERNDEV_OBJ = $(patsubst %.c,%.o,${PATTERNDEV_SRC})
 
-TARGETS := $(PATTERNDEV) header
+BINYES := binyes
+BINYES_SRC = src/binyes.c
+BINYES_OBJ = $(patsubst %.c,%.o,${BINYES_SRC})
+
+TARGETS := $(PATTERNDEV) $(BINYES) header
 
 ###########################################################################
 ## What otherwise autoconf performs:
@@ -46,9 +50,9 @@ else
   endif
 endif
 
-M_CFLAGS = $(CFLAGS) $(FUSE_CFLAGS)
+M_CFLAGS = $(CFLAGS)
 M_LDFLAGS = $(LDFLAGS)
-M_LIBS = $(LIBS) $(FUSE_LIBS)
+M_LIBS = $(LIBS)
 
 ifeq ($(ERRORS), )
   M_TARGETS=$(TARGETS)
@@ -62,7 +66,9 @@ no-pkgconfig:
 	@echo pkg-config not found, please provide FUSE_CFLAGS and FUSE_LIBS
 
 $(PATTERNDEV): $(PATTERNDEV_OBJ)
-	$(CC) $(M_LDFLAGS) -o $@ $(PATTERNDEV_OBJ) $(M_LIBS)
+	$(CC) $(M_LDFLAGS) -o $@ $(PATTERNDEV_OBJ) $(FUSE_LIBS) $(M_LIBS)
+$(BINYES): $(BINYES_OBJ)
+	$(CC) $(M_LDFLAGS) -o $@ $(BINYES_OBJ) $(M_LIBS)
 
 install: $(patsubst %,install-%,$(M_TARGETS))
 install-header:
@@ -72,11 +78,16 @@ install-$(PATTERNDEV): $(PATTERNDEV)
 	-install -d -m755                     $(DESTDIR)$(BINDIR)
 	-install    -m755 $(PATTERNDEV)       $(DESTDIR)$(BINDIR)/
 
+#%.o: %.c
+#	$(CC) $(M_CFLAGS) -c -o $@ $^ -MMD -MF $@.d -MT $@
+$(PATTERNDEV_OBJ):
+	$(CC) $(FUSE_CFLAGS) $(M_CFLAGS) -c -o $@ $(patsubst %.o,%.c,$@) -MMD -MF $@.d -MT $@
+
 %.o: %.c
 	$(CC) $(M_CFLAGS) -c -o $@ $^ -MMD -MF $@.d -MT $@
 
 clean:
 	-rm -f src/*.o src/*.d
-	-rm -f $(PATTERNDEV)
+	-rm -f $(PATTERNDEV) $(BINYES)
 
 -include src/*.d

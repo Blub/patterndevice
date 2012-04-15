@@ -1,0 +1,23 @@
+FAQ
+- Aren't there better...
+    Yes, but I wanted to try out CUSE myself.
+    What better argument is there to create this piece of code anyway?
+
+Anyway: the "arent't there better...' FAQ:
+- Aren't there better alternatives? Like the `yes' command?
+    `yes' isn't suitable for binary data.
+
+- Then wouldn't a `binyes' which reads the pattern from stdin
+  and then 'yesses' it to stdout be still better?
+    Sometimes. Many shells support syntax like: exec 7<>some_file
+    But bash for example, unlike plan9 rc, does not do: exec 7<>(cmd)
+    Bash4 may have the 'coproc' feature for this, but it seems to be
+    widely unknown, and: what about sh/dash/csh?
+    I bet zsh can do the whole thing by itself though.
+
+- `binyes' using FIFOs?
+    Yes, if you create temporary FIFOs rather than using one FIFO for
+    all, to avoid race conditions in opening the write and read ends.
+    However it is generally uglier to use temporary files than simply
+    opening a pipe - using /dev/pattern as a file, or binyes as a
+    `coproc'.
