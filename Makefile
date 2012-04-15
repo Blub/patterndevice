@@ -90,4 +90,7 @@ clean:
 	-rm -f src/*.o src/*.d
 	-rm -f $(PATTERNDEV) $(BINYES)
 
+check:
+	-sh test-binyes.sh
+
 -include src/*.d
