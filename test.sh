@@ -11,7 +11,7 @@ exec 7<>/dev/pattern
 
 echo It\'s working >&7
 
-cat <&7 | dd if=/dev/stdin of=/dev/stdout bs=128 count=1
+dd if=/dev/stdin of=/dev/stdout bs=128 count=1 <&7
 echo
 exec 7>&-
 
