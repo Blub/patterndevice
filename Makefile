@@ -58,7 +58,7 @@ ifeq ($(ERRORS), )
   M_TARGETS=$(TARGETS)
 endif
 
-.PHONY: header check test install
+.PHONY: header check test install install-bindir
 
 all: $(ERRORS) $(M_TARGETS)
 
@@ -74,10 +74,11 @@ install: $(patsubst %,install-%,$(M_TARGETS))
 install-header:
 	-install -d -m755                     $(DESTDIR)$(INCLUDEDIR)
 	-install    -m644 src/patterndevice.h $(DESTDIR)$(INCLUDEDIR)/
-install-$(PATTERNDEV): $(PATTERNDEV)
+install-bindir:
 	-install -d -m755                     $(DESTDIR)$(BINDIR)
+install-$(PATTERNDEV): $(PATTERNDEV) install-bindir
 	-install    -m755 $(PATTERNDEV)       $(DESTDIR)$(BINDIR)/
-install-$(BINYES): $(BINYES)
+install-$(BINYES): $(BINYES) install-bindir
 	-install    -m755 $(BINYES)           $(DESTDIR)$(BINDIR)/
 
 #%.o: %.c
