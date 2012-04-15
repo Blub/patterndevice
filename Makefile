@@ -77,6 +77,8 @@ install-header:
 install-$(PATTERNDEV): $(PATTERNDEV)
 	-install -d -m755                     $(DESTDIR)$(BINDIR)
 	-install    -m755 $(PATTERNDEV)       $(DESTDIR)$(BINDIR)/
+install-$(BINYES): $(BINYES)
+	-install    -m755 $(BINYES)           $(DESTDIR)$(BINDIR)/
 
 #%.o: %.c
 #	$(CC) $(M_CFLAGS) -c -o $@ $^ -MMD -MF $@.d -MT $@
