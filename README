@@ -21,3 +21,7 @@ Anyway: the "arent't there better...' FAQ:
     However it is generally uglier to use temporary files than simply
     opening a pipe - using /dev/pattern as a file, or binyes as a
     `coproc'.
+    If you really do not have any 'exec' construct though, FIFOs are
+    either ugly to use, or you use subshell constructs, in which case
+    some local variables can be a pita to get out into the main
+    process... read tests/binyes-fifo.sh
