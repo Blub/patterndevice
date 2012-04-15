@@ -25,10 +25,16 @@ if ! mkfifo test_fifo ; then
 	exit 1
 fi
 
+# A helper to print a message and exit
+die() {
+	echo "$*"
+	exit 1
+}
+
 # Open binyes' read end and pipe to a subshell
 ../binyes < test_fifo | {
 	# Write to binyes
-	$ECHO "Correct Pattern" > test_fifo
+	$ECHO "Correct Pattern" > test_fifo || die "fail (failed to write to fifo)"
 	
 	read line
 	read line2
